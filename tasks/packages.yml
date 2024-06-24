@@ -29,7 +29,7 @@
     - r-packages-list-installed
   block:
     - name: packages | list installed packages
-      ansible.builtin.command: >
+      command: >
         R-list-installed-packages {{ r_packages_lib }}
       environment: "{{ r_environment }}"
       register: _r_installed_packages
@@ -40,7 +40,7 @@
         r_installed_packages: "{{ _r_installed_packages.stdout_lines }}"
 
 - name: packages | install
-  ansible.builtin.command: >
+  command: >
     {{ r_scripts_install_path }}/R-install-package
     {{ item.name }}
     {{ item.type | default(r_packages_type) }}
@@ -62,7 +62,7 @@
     - r-packages-install
 
 - name: packages | remove
-  ansible.builtin.command: >
+  command: >
     {{ r_scripts_install_path }}/R-remove-package
     {{ item.name }}
     {% if item.lib is defined %}{{ item.lib }}{% endif %}
@@ -78,7 +78,7 @@
     - r-packages-remove
 
 - name: packages | update
-  ansible.builtin.command: >
+  command: >
     {{ r_scripts_install_path }}/R-update-package
     {{ item.name }}
     {{ item.type | default(r_packages_type) }}
